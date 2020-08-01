@@ -60,36 +60,36 @@ if [[ -z "$COMMIT_MESSAGE" ]]; then
 fi
  
 setup_git() {
-  git config --global user.email $GIT_USER_EMAIL >/dev/null
-  git config --global user.name $GIT_USER_NAME >/dev/null
+  git config --global user.email "$GIT_USER_EMAIL" >/dev/null
+  git config --global user.name "$GIT_USER_NAME" >/dev/null
   echo "Configured git user name and email"
 }
  
 checkout_project() {
   # remove any existing checkout, if there
-  rm -rf ${GIT_REPO}-checkout
+  rm -rf "$GIT_REPO"-checkout
  
   # clone the git repo where we need to push and checkout the right branch
-  git clone -q https://${GIT_TOKEN}@${GIT_HOST}/${GIT_ORG}/${GIT_REPO}.git ${GIT_REPO}-checkout >/dev/null
-  cd ${GIT_REPO}-checkout
-  git checkout -q $GIT_BRANCH >/dev/null
-  echo "Checked out project on ${PWD}"
+  git clone -q https://"$GIT_TOKEN@$GIT_HOST/$GIT_ORG/$GIT_REPO".git "$GIT_REPO"-checkout >/dev/null
+  cd "$GIT_REPO"-checkout
+  git checkout -q "$GIT_BRANCH" >/dev/null
+  echo "Checked out project on $PWD"
 }
  
 push_files() {
   # copy the artifacts from the current project into the git repo checkout
-  echo "copy artifact from folder ${PWD}"
-  cp -rf ../${FILES_TO_PUSH} .
+  echo "copy artifact from folder $PWD"
+  cp -rf ../"$FILES_TO_PUSH" .
  
-  git add $FILES_TO_PUSH
+  git add "$FILES_TO_PUSH"
   git commit -q -m "$COMMIT_MESSAGE"
-  git push -q -u origin $GIT_BRANCH >/dev/null
+  git push -q -u origin "$GIT_BRANCH" >/dev/null
   echo "Pushed changes into remote git repo"
 }
  
 cleanup() {
   cd ..
-  rm -rf ${GIT_REPO}-checkout
+  rm -rf "$GIT_REPO"-checkout
 }
  
 setup_git

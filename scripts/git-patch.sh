@@ -9,6 +9,6 @@ fi
 URL=$1;
  
 # Download a patch and apply it.
-curl $URL | git apply -v --index
+curl "$URL" | git apply -v --index
 # Commit patch and add a log message.
 git commit -m "Applied ${URL##*/}."
